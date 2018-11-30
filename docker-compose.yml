@@ -1,26 +1,28 @@
 version: '3'
 services:
   app:
-    image: kslbusarin/node-vote-app:1.0
+    image: kritamate123/node-vote-app:1.0
     ports:
       - "3000:3000"
     networks:
-      - backend
-      - frontend
+      - backend-network
+      - frontend-network
    
-    
+    depends_on:
+      - redis
 
   redis:
     image: redis:4.0.0-alpine
     command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
     networks:
-      - backend
+      - backend-network
     volumes:
       - redis-data:/data
 
 networks:
-  backend:
-  frontend:
+  backend-network:
+  frontend-network:
 
 volumes:
   redis-data:
